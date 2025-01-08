@@ -73,11 +73,20 @@ class listOutDates
                         Case Year(cdate(start_date))
                             For B = 0 To DateDiff("m",cdate(temp_date),cdate("01/01/" & Year(cdate(temp_date))+1 & " 00:00:00")) -1 
                                 'Privileged case, starting from first day'
-                                For C = 0 To DateDiff("d", cdate(temp_date), cdate("01/" & Month(cdate(temp_date)) + 1 & "/" & Year(cdate(temp_date)) & " 00:00:00")) -1
-                                    Redim Preserve arr(index)
-                                    arr(index) = (Day(cdate(temp_date)) + C) & "/" & (Month(cdate(temp_date))) & "/" & (Year(cdate(temp_date)))
-                                    index = index + 1
-                                Next
+                                Select Case Month(cdate(temp_date))
+                                    Case 12
+                                        For C = 0 To DateDiff("d", cdate(temp_date), cdate("31/" & Month(cdate(temp_date)) & "/" & Year(cdate(temp_date)) & " 00:00:00"))
+                                            Redim Preserve arr(index)
+                                            arr(index) = (Day(cdate(temp_date)) + C) & "/" & (Month(cdate(temp_date))) & "/" & (Year(cdate(temp_date)))
+                                            index = index + 1
+                                        Next
+                                    Case else 
+                                        For C = 0 To DateDiff("d", cdate(temp_date), cdate("01/" & Month(cdate(temp_date)) + 1 & "/" & Year(cdate(temp_date)) & " 00:00:00")) -1
+                                            Redim Preserve arr(index)
+                                            arr(index) = (Day(cdate(temp_date)) + C) & "/" & (Month(cdate(temp_date))) & "/" & (Year(cdate(temp_date)))
+                                            index = index + 1
+                                        Next
+                                End Select
                                 temp_date = cdate("01/" & Month(cdate(temp_date)) + 1 & "/" & Year(cdate(temp_date)) & " 00:00:00")
                             Next 
                             temp_date = cdate("01/01/" & Year(cdate(temp_date))+1 & " 00:00:00")
@@ -94,12 +103,21 @@ class listOutDates
                                         Exit For
                                     Case else
                                         'In the last year but not in the same month'
-                                        For C = 0 To DateDiff("d", cdate(temp_date), cdate("01/" & Month(cdate(temp_date)) + 1 & "/" & Year(cdate(temp_date)) & " 00:00:00")) -1
-                                            Redim Preserve arr(index)
-                                            arr(index) = (Day(cdate(temp_date)) + C) & "/" & (Month(cdate(temp_date))) & "/" & (Year(cdate(temp_date)))
-                                            index = index + 1
-                                        Next
-                                    temp_date = cdate("01/" & Month(cdate(temp_date)) + 1 & "/" & Year(cdate(temp_date)) & " 00:00:00")
+                                        Select Case Month(cdate(temp_date))
+                                            Case 12
+                                                For C = 0 To DateDiff("d", cdate(temp_date), cdate("31/" & Month(cdate(temp_date)) & "/" & Year(cdate(temp_date)) & " 00:00:00"))
+                                                    Redim Preserve arr(index)
+                                                    arr(index) = (Day(cdate(temp_date)) + C) & "/" & (Month(cdate(temp_date))) & "/" & (Year(cdate(temp_date)))
+                                                    index = index + 1
+                                                Next
+                                            Case else 
+                                                For C = 0 To DateDiff("d", cdate(temp_date), cdate("01/" & Month(cdate(temp_date)) + 1 & "/" & Year(cdate(temp_date)) & " 00:00:00")) -1
+                                                    Redim Preserve arr(index)
+                                                    arr(index) = (Day(cdate(temp_date)) + C) & "/" & (Month(cdate(temp_date))) & "/" & (Year(cdate(temp_date)))
+                                                    index = index + 1
+                                                Next
+                                        End Select
+                                        temp_date = cdate("01/" & Month(cdate(temp_date)) + 1 & "/" & Year(cdate(temp_date)) & " 00:00:00")
                                 End Select
                             Next 
                             'At this point the loop should be concluded'
@@ -107,11 +125,20 @@ class listOutDates
                         Case else
                             'Standard case, is the same of privileged case'
                             For B = 0 To DateDiff("m",cdate(temp_date),cdate("01/01/" & Year(cdate(temp_date))+1 & " 00:00:00")) -1 
-                                 For C = 0 To DateDiff("d", cdate(temp_date), cdate("01/" & Month(cdate(temp_date)) + 1 & "/" & Year(cdate(temp_date)) & " 00:00:00")) -1
-                                    Redim Preserve arr(index)
-                                    arr(index) = (Day(cdate(temp_date)) + C) & "/" & (Month(cdate(temp_date))) & "/" & (Year(cdate(temp_date)))
-                                    index = index + 1
-                                Next
+                                Select Case Month(cdate(temp_date))
+                                    Case 12
+                                        For C = 0 To DateDiff("d", cdate(temp_date), cdate("31/" & Month(cdate(temp_date)) & "/" & Year(cdate(temp_date)) & " 00:00:00"))
+                                            Redim Preserve arr(index)
+                                            arr(index) = (Day(cdate(temp_date)) + C) & "/" & (Month(cdate(temp_date))) & "/" & (Year(cdate(temp_date)))
+                                            index = index + 1
+                                        Next
+                                    Case else 
+                                        For C = 0 To DateDiff("d", cdate(temp_date), cdate("01/" & Month(cdate(temp_date)) + 1 & "/" & Year(cdate(temp_date)) & " 00:00:00")) -1
+                                            Redim Preserve arr(index)
+                                            arr(index) = (Day(cdate(temp_date)) + C) & "/" & (Month(cdate(temp_date))) & "/" & (Year(cdate(temp_date)))
+                                            index = index + 1
+                                        Next
+                                End Select
                                 temp_date = cdate("01/" & Month(cdate(temp_date)) + 1 & "/" & Year(cdate(temp_date)) & " 00:00:00")
                             Next
                             temp_date = cdate("01/01/" & Year(cdate(temp_date))+1 & " 00:00:00")

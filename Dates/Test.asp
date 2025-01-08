@@ -1,5 +1,5 @@
 <%@LANGUAGE="VBSCRIPT"%>
-<!--#include file="List_out_dates.asp"-->
+<!--#include file="List_out_dates.class.asp"-->
 <%
     Dim dates
     Set dates = New  listOutDates
@@ -10,7 +10,7 @@
     end_date = "02/04/2027 15:06:30" 
 
     Dim temp 
-    For Each temp In dates.extractDates(start_date, end_date, "m")
+    For Each temp In dates.extractDates(start_date, end_date, "d")
         Response.write(temp & "<br>")
     Next
 %>

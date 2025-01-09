@@ -45,19 +45,24 @@ class listOutDates
         Select Case selector
             'Extract Years'
             Case "y"
-                For A = 0 To  DateDiff("yyyy",cdate(start_date),cdate(end_date))
-                    Redim Preserve arr(index)
-                    arr(index) = Year(cdate(start_date)) + A
-                    index = index + 1 
-                Next
+                Select Case DateDiff("yyyy",cdate(start_date),cdate(end_date))
+                    Case 0
+                        Redim Preserve arr(index)
+                        arr(index) = Year(cdate(start_date)) + A
+                        index = index + 1 
+                    Case else
+                        For A = 0 To  DateDiff("yyyy",cdate(start_date),cdate(end_date))
+                            Redim Preserve arr(index)
+                            arr(index) = Year(cdate(start_date)) + A
+                            index = index + 1 
+                        Next
+                End Select 
             'Extract Months'
             Case "m"
-                temp_date = start_date
-                For A = 0 to  DateDiff("yyyy",cdate(start_date),cdate(end_date))
-                    'Check if the date is at start or end'
-                    Select Case Year(cdate(temp_date))
-                        Case Year(cdate(start_date))
-                            For B = 0 To DateDiff("m",cdate(temp_date),cdate("01/01/" & Year(cdate(temp_date))+1 & " 00:00:00")) -1 
+                Select Case DateDiff("yyyy",cdate(start_date),cdate(end_date))
+                    Case 0
+                        temp_date = start_date
+                        For B = 0 To DateDiff("m",cdate(temp_date),cdate(end_date))
                                 Redim Preserve arr(index)
                                 If month_name Then 
                                     arr(index) = MonthName((Month(cdate(temp_date)) + B), abbreviate) & separator & (Year(cdate(temp_date)))
@@ -66,68 +71,54 @@ class listOutDates
                                 End If
                                 index = index + 1 
                             Next 
-                            temp_date = cdate("01/01/" & Year(cdate(temp_date))+1 & " 00:00:00")
-                        Case Year(cdate(end_date))
-                            For B = 0 To DateDiff("m",cdate(temp_date),cdate(end_date))
-                                Redim Preserve arr(index)
-                                If month_name Then 
-                                    arr(index) = MonthName((Month(cdate(temp_date)) + B), abbreviate) & separator & (Year(cdate(temp_date)))
-                                Else
-                                    arr(index) = (Month(cdate(temp_date)) + B) & separator & (Year(cdate(temp_date)))
-                                End If
-                                index = index + 1 
-                            Next 
-                            'At this point the loop should be concluded'
-                            Exit For 
-                        Case else
-                            For B = 0 To DateDiff("m",cdate(temp_date),cdate("01/01/" & Year(cdate(temp_date))+1 & " 00:00:00")) -1 
-                                Redim Preserve arr(index)
-                                If month_name Then 
-                                    arr(index) = MonthName((Month(cdate(temp_date)) + B), abbreviate) & separator & (Year(cdate(temp_date)))
-                                Else
-                                    arr(index) = (Month(cdate(temp_date)) + B) & separator & (Year(cdate(temp_date)))
-                                End If
-                                index = index + 1 
-                            Next
-                            temp_date = cdate("01/01/" & Year(cdate(temp_date))+1 & " 00:00:00")
-                    End Select 
-                Next
+                    Case else 
+                        temp_date = start_date
+                        For A = 0 to  DateDiff("yyyy",cdate(start_date),cdate(end_date))
+                            'Check if the date is at start or end'
+                            Select Case Year(cdate(temp_date))
+                                Case Year(cdate(start_date))
+                                    For B = 0 To DateDiff("m",cdate(temp_date),cdate("01/01/" & Year(cdate(temp_date))+1 & " 00:00:00")) -1 
+                                        Redim Preserve arr(index)
+                                        If month_name Then 
+                                            arr(index) = MonthName((Month(cdate(temp_date)) + B), abbreviate) & separator & (Year(cdate(temp_date)))
+                                        Else
+                                            arr(index) = (Month(cdate(temp_date)) + B) & separator & (Year(cdate(temp_date)))
+                                        End If
+                                        index = index + 1 
+                                    Next 
+                                    temp_date = cdate("01/01/" & Year(cdate(temp_date))+1 & " 00:00:00")
+                                Case Year(cdate(end_date))
+                                    For B = 0 To DateDiff("m",cdate(temp_date),cdate(end_date))
+                                        Redim Preserve arr(index)
+                                        If month_name Then 
+                                            arr(index) = MonthName((Month(cdate(temp_date)) + B), abbreviate) & separator & (Year(cdate(temp_date)))
+                                        Else
+                                            arr(index) = (Month(cdate(temp_date)) + B) & separator & (Year(cdate(temp_date)))
+                                        End If
+                                        index = index + 1 
+                                    Next 
+                                    'At this point the loop should be concluded'
+                                    Exit For 
+                                Case else
+                                    For B = 0 To DateDiff("m",cdate(temp_date),cdate("01/01/" & Year(cdate(temp_date))+1 & " 00:00:00")) -1 
+                                        Redim Preserve arr(index)
+                                        If month_name Then 
+                                            arr(index) = MonthName((Month(cdate(temp_date)) + B), abbreviate) & separator & (Year(cdate(temp_date)))
+                                        Else
+                                            arr(index) = (Month(cdate(temp_date)) + B) & separator & (Year(cdate(temp_date)))
+                                        End If
+                                        index = index + 1 
+                                    Next
+                                temp_date = cdate("01/01/" & Year(cdate(temp_date))+1 & " 00:00:00")
+                            End Select 
+                        Next
+                End Select     
             'Extract Days'
             Case "d"
-                temp_date = start_date
-                For A = 0 to  DateDiff("yyyy",cdate(start_date),cdate(end_date))
-                    'Check if the date is at start or end'
-                    Select Case Year(cdate(temp_date))
-                        Case Year(cdate(start_date))
-                            For B = 0 To DateDiff("m",cdate(temp_date),cdate("01/01/" & Year(cdate(temp_date))+1 & " 00:00:00")) -1 
-                                'Privileged case, starting from first day'
-                                Select Case Month(cdate(temp_date))
-                                    Case 12
-                                        For C = 0 To DateDiff("d", cdate(temp_date), cdate("31/" & Month(cdate(temp_date)) & separator & Year(cdate(temp_date)) & " 00:00:00"))
-                                            Redim Preserve arr(index)
-                                            If month_name Then 
-                                                arr(index) = (Day(cdate(temp_date)) + C) & separator & MonthName(Month(cdate(temp_date)), abbreviate) & separator & (Year(cdate(temp_date)))
-                                            Else
-                                                arr(index) = (Day(cdate(temp_date)) + C) & separator & (Month(cdate(temp_date))) & separator & (Year(cdate(temp_date)))
-                                            End If
-                                            index = index + 1
-                                        Next
-                                    Case else 
-                                        For C = 0 To DateDiff("d", cdate(temp_date), cdate("01/" & Month(cdate(temp_date)) + 1 & separator & Year(cdate(temp_date)) & " 00:00:00")) -1
-                                            Redim Preserve arr(index)
-                                            If month_name Then 
-                                                arr(index) = (Day(cdate(temp_date)) + C) & separator & MonthName(Month(cdate(temp_date)), abbreviate) & separator & (Year(cdate(temp_date)))
-                                            Else
-                                                arr(index) = (Day(cdate(temp_date)) + C) & separator & (Month(cdate(temp_date))) & separator & (Year(cdate(temp_date)))
-                                            End If
-                                            index = index + 1
-                                        Next
-                                End Select
-                                temp_date = cdate("01/" & Month(cdate(temp_date)) + 1 & separator & Year(cdate(temp_date)) & " 00:00:00")
-                            Next 
-                            temp_date = cdate("01/01/" & Year(cdate(temp_date))+1 & " 00:00:00")
-                        Case Year(cdate(end_date))
-                            For B = 0 To DateDiff("m",cdate(temp_date),cdate(end_date))
+                Select Case DateDiff("yyyy",cdate(start_date),cdate(end_date))
+                    Case 0
+                        temp_date = start_date
+                        For B = 0 To DateDiff("m",cdate(temp_date),cdate(end_date))
                                 Select Case  Month(cdate(temp_date))
                                     Case Month(cdate(end_date))
                                         For C = 0 To DateDiff("d", cdate(temp_date), cdate(end_date))
@@ -140,7 +131,7 @@ class listOutDates
                                             index = index + 1
                                         Next
                                         'At this point the loop should be concluded'
-                                        Exit For
+                                        'Exit For
                                     Case else
                                         'In the last year but not in the same month'
                                         Select Case Month(cdate(temp_date))
@@ -168,38 +159,114 @@ class listOutDates
                                         temp_date = cdate("01/" & Month(cdate(temp_date)) + 1 & separator & Year(cdate(temp_date)) & " 00:00:00")
                                 End Select
                             Next 
-                            'At this point the loop should be concluded'
-                            Exit For 
-                        Case else
-                            'Standard case, is the same of privileged case'
-                            For B = 0 To DateDiff("m",cdate(temp_date),cdate("01/01/" & Year(cdate(temp_date))+1 & " 00:00:00")) -1 
-                                Select Case Month(cdate(temp_date))
-                                    Case 12
-                                        For C = 0 To DateDiff("d", cdate(temp_date), cdate("31/" & Month(cdate(temp_date)) & separator & Year(cdate(temp_date)) & " 00:00:00"))
-                                            Redim Preserve arr(index)
-                                            If month_name Then 
-                                                arr(index) = (Day(cdate(temp_date)) + C) & separator & MonthName(Month(cdate(temp_date)), abbreviate) & separator & (Year(cdate(temp_date)))
-                                            Else
-                                                arr(index) = (Day(cdate(temp_date)) + C) & separator & (Month(cdate(temp_date))) & separator & (Year(cdate(temp_date)))
-                                            End If
-                                            index = index + 1
-                                        Next
-                                    Case else 
-                                        For C = 0 To DateDiff("d", cdate(temp_date), cdate("01/" & Month(cdate(temp_date)) + 1 & separator & Year(cdate(temp_date)) & " 00:00:00")) -1
-                                            Redim Preserve arr(index)
-                                            If month_name Then 
-                                                arr(index) = (Day(cdate(temp_date)) + C) & separator & MonthName(Month(cdate(temp_date)), abbreviate) & separator & (Year(cdate(temp_date)))
-                                            Else
-                                                arr(index) = (Day(cdate(temp_date)) + C) & separator & (Month(cdate(temp_date))) & separator & (Year(cdate(temp_date)))
-                                            End If
-                                            index = index + 1
-                                        Next
-                                End Select
-                                temp_date = cdate("01/" & Month(cdate(temp_date)) + 1 & separator & Year(cdate(temp_date)) & " 00:00:00")
-                            Next
-                            temp_date = cdate("01/01/" & Year(cdate(temp_date))+1 & " 00:00:00")
-                    End Select 
-                Next
+                    Case else 
+                        temp_date = start_date
+                        For A = 0 to  DateDiff("yyyy",cdate(start_date),cdate(end_date))
+                            'Check if the date is at start or end'
+                            Select Case Year(cdate(temp_date))
+                                Case Year(cdate(start_date))
+                                    For B = 0 To DateDiff("m",cdate(temp_date),cdate("01/01/" & Year(cdate(temp_date))+1 & " 00:00:00")) -1 
+                                        'Privileged case, starting from first day'
+                                        Select Case Month(cdate(temp_date))
+                                            Case 12
+                                                For C = 0 To DateDiff("d", cdate(temp_date), cdate("31/" & Month(cdate(temp_date)) & separator & Year(cdate(temp_date)) & " 00:00:00"))
+                                                    Redim Preserve arr(index)
+                                                    If month_name Then 
+                                                        arr(index) = (Day(cdate(temp_date)) + C) & separator & MonthName(Month(cdate(temp_date)), abbreviate) & separator & (Year(cdate(temp_date)))
+                                                    Else
+                                                        arr(index) = (Day(cdate(temp_date)) + C) & separator & (Month(cdate(temp_date))) & separator & (Year(cdate(temp_date)))
+                                                    End If
+                                                    index = index + 1
+                                                Next
+                                            Case else 
+                                                For C = 0 To DateDiff("d", cdate(temp_date), cdate("01/" & Month(cdate(temp_date)) + 1 & separator & Year(cdate(temp_date)) & " 00:00:00")) -1
+                                                    Redim Preserve arr(index)
+                                                    If month_name Then 
+                                                        arr(index) = (Day(cdate(temp_date)) + C) & separator & MonthName(Month(cdate(temp_date)), abbreviate) & separator & (Year(cdate(temp_date)))
+                                                    Else
+                                                        arr(index) = (Day(cdate(temp_date)) + C) & separator & (Month(cdate(temp_date))) & separator & (Year(cdate(temp_date)))
+                                                    End If
+                                                    index = index + 1
+                                                Next
+                                        End Select
+                                     temp_date = cdate("01/" & Month(cdate(temp_date)) + 1 & separator & Year(cdate(temp_date)) & " 00:00:00")
+                                    Next 
+                                    temp_date = cdate("01/01/" & Year(cdate(temp_date))+1 & " 00:00:00")
+                                Case Year(cdate(end_date))
+                                    For B = 0 To DateDiff("m",cdate(temp_date),cdate(end_date))
+                                        Select Case  Month(cdate(temp_date))
+                                            Case Month(cdate(end_date))
+                                                For C = 0 To DateDiff("d", cdate(temp_date), cdate(end_date))
+                                                    Redim Preserve arr(index)
+                                                    If month_name Then 
+                                                        arr(index) = (Day(cdate(temp_date)) + C) & separator & MonthName(Month(cdate(temp_date)), abbreviate) & separator & (Year(cdate(temp_date)))
+                                                    Else
+                                                        arr(index) = (Day(cdate(temp_date)) + C) & separator & (Month(cdate(temp_date))) & separator & (Year(cdate(temp_date)))
+                                                    End If
+                                                    index = index + 1
+                                                Next
+                                                'At this point the loop should be concluded'
+                                                Exit For
+                                            Case else
+                                                'In the last year but not in the same month'
+                                                Select Case Month(cdate(temp_date))
+                                                    Case 12
+                                                        For C = 0 To DateDiff("d", cdate(temp_date), cdate("31/" & Month(cdate(temp_date)) & separator & Year(cdate(temp_date)) & " 00:00:00"))
+                                                            Redim Preserve arr(index)
+                                                            If month_name Then 
+                                                                arr(index) = (Day(cdate(temp_date)) + C) & separator & MonthName(Month(cdate(temp_date)), abbreviate) & separator & (Year(cdate(temp_date)))
+                                                            Else
+                                                                arr(index) = (Day(cdate(temp_date)) + C) & separator & (Month(cdate(temp_date))) & separator & (Year(cdate(temp_date)))
+                                                            End If
+                                                            index = index + 1
+                                                        Next
+                                                    Case else 
+                                                        For C = 0 To DateDiff("d", cdate(temp_date), cdate("01/" & Month(cdate(temp_date)) + 1 & separator & Year(cdate(temp_date)) & " 00:00:00")) -1
+                                                            Redim Preserve arr(index)
+                                                            If month_name Then 
+                                                                arr(index) = (Day(cdate(temp_date)) + C) & separator & MonthName(Month(cdate(temp_date)), abbreviate) & separator & (Year(cdate(temp_date)))
+                                                            Else
+                                                                arr(index) = (Day(cdate(temp_date)) + C) & separator & (Month(cdate(temp_date))) & separator & (Year(cdate(temp_date)))
+                                                            End If
+                                                            index = index + 1
+                                                        Next
+                                                End Select
+                                                temp_date = cdate("01/" & Month(cdate(temp_date)) + 1 & separator & Year(cdate(temp_date)) & " 00:00:00")
+                                        End Select
+                                    Next 
+                                    'At this point the loop should be concluded'
+                                    Exit For 
+                                Case else
+                                    'Standard case, is the same of privileged case'
+                                    For B = 0 To DateDiff("m",cdate(temp_date),cdate("01/01/" & Year(cdate(temp_date))+1 & " 00:00:00")) -1 
+                                        Select Case Month(cdate(temp_date))
+                                            Case 12
+                                                 For C = 0 To DateDiff("d", cdate(temp_date), cdate("31/" & Month(cdate(temp_date)) & separator & Year(cdate(temp_date)) & " 00:00:00"))
+                                                    Redim Preserve arr(index)
+                                                    If month_name Then 
+                                                        arr(index) = (Day(cdate(temp_date)) + C) & separator & MonthName(Month(cdate(temp_date)), abbreviate) & separator & (Year(cdate(temp_date)))
+                                                    Else
+                                                        arr(index) = (Day(cdate(temp_date)) + C) & separator & (Month(cdate(temp_date))) & separator & (Year(cdate(temp_date)))
+                                                    End If
+                                                    index = index + 1
+                                                Next
+                                            Case else 
+                                                For C = 0 To DateDiff("d", cdate(temp_date), cdate("01/" & Month(cdate(temp_date)) + 1 & separator & Year(cdate(temp_date)) & " 00:00:00")) -1
+                                                    Redim Preserve arr(index)
+                                                    If month_name Then 
+                                                        arr(index) = (Day(cdate(temp_date)) + C) & separator & MonthName(Month(cdate(temp_date)), abbreviate) & separator & (Year(cdate(temp_date)))
+                                                    Else
+                                                        arr(index) = (Day(cdate(temp_date)) + C) & separator & (Month(cdate(temp_date))) & separator & (Year(cdate(temp_date)))
+                                                    End If
+                                                    index = index + 1
+                                                Next
+                                        End Select
+                                        temp_date = cdate("01/" & Month(cdate(temp_date)) + 1 & separator & Year(cdate(temp_date)) & " 00:00:00")
+                                    Next
+                                    temp_date = cdate("01/01/" & Year(cdate(temp_date))+1 & " 00:00:00")
+                            End Select 
+                        Next
+                End Select
         End Select
         'Return statement'
         extractDates = arr 

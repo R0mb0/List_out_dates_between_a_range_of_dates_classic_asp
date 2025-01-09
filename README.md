@@ -10,11 +10,23 @@
 
 ## `List_out_dates.class.asp`'s avaible function
 
-- List out dates -> `extractDates(start_date, end_date, selector)` - The function returns an array with all dates.
-  > Where the selector could be:
-  > - "y" for Years
-  > - "m" for Months
-  > - "d" for Days
+- List out dates -> `Public Function extractDates(start_date, end_date, selector, separator, month_name, abbreviate)` - The function returns an array with all dates.
+  >
+  > - <ins>Where the selector could be:</ins>
+  >   - "y" for Years
+  >   - "m" for Months
+  >   - "d" for Days
+  >
+  > - <ins>Where the separator could be:</ins>
+  >   - An arbitrary symbol to separate date elements
+  >
+  > - <ins>Where the month_name coud be:</ins>
+  >   - True for use MonthName function
+  >   - False for don't use MonthName function
+  >
+  > - <ins>Where abbreviate could be:</ins>
+  >   - True for abbreviate
+  >   - False for don't abbreviate
 
 ## How to use 
 
@@ -39,7 +51,7 @@
 3. List out all dates from range
    ```
     Dim temp 
-    For Each temp In dates.extractDates(start_date, end_date, "d")
+    For Each temp In dates.extractDates(start_date, end_date, "d", "/", True, False)
         Response.write(temp & "<br>")
     Next
    %>

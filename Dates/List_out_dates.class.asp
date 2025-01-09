@@ -271,6 +271,5 @@ class listOutDates
         'Return statement'
         extractDates = arr 
     End Function
-
 End Class 
 %> 

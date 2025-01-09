@@ -17,6 +17,11 @@ class listOutDates
 
     Public Function extractDates(start_date, end_date, selector) 'Selector could be one of the listed
 
+        'Check dates order'
+        If cdate(end_date) < cdate(start_date) Then 
+            Call Err.Raise(vbObjectError + 10, "List_out_dates.class - extractDates", "The dates are in wrong order")
+        End If 
+
         Dim arr 
         arr = Array()
         Dim index 

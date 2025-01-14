@@ -1,5 +1,5 @@
 <%@LANGUAGE="VBSCRIPT"%>
-<!--#include file="Librerie/List_out_dates.class.asp"-->
+<!--#include file="list_out_dates.class.asp"-->
 <%
     Dim dates
     Set dates = New  listOutDates

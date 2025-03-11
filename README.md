@@ -33,7 +33,7 @@
 > From `Test.asp`
 
 1. Initialize the class
-   ```
+   ```asp
    <%@LANGUAGE="VBSCRIPT"%>
    <!--#include file="list_out_dates.class.asp"-->
     <%
@@ -42,14 +42,14 @@
    ```
 
 2. Create a start date and a end date
-   ```
+   ```asp
     Dim start_date
     start_date = "07/02/2025 11:26:46" 
     Dim end_date
     end_date = "02/04/2027 15:06:30" 
    ```
 3. List out all dates from range
-   ```
+   ```asp
     Dim temp 
     For Each temp In dates.extractDates(start_date, end_date, "d", "/", True, False)
         Response.write(temp & "<br>")

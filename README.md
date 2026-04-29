@@ -8,6 +8,19 @@
 
 [![Donate](https://img.shields.io/badge/PayPal-Donate%20to%20Author-blue.svg)](http://paypal.me/R0mb0)
 
+---
+
+<div align="center">
+  <a href="http://paypal.me/R0mb0">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://github.com/R0mb0/Support_the_dev_badge/blob/main/Badge/SVG/Support_the_dev_badge_Dark.svg">
+      <source media="(prefers-color-scheme: light)" srcset="https://github.com/R0mb0/Support_the_dev_badge/blob/main/Badge/SVG/Support_the_dev_badge_Light.svg">
+      <img alt="Saved you time? Support the dev" src="https://github.com/R0mb0/Support_the_dev_badge/blob/main/Badge/SVG/Support_the_dev_badge_Default.svg">
+    </picture>
+  </a>
+</div>
+
+
 ## `List_out_dates.class.asp`'s avaible function
 
 - List out dates -> `Public Function extractDates(start_date, end_date, selector, separator, month_name, abbreviate)` - The function returns an array with all dates.
